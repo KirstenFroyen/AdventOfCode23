@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
+import 'package:advent_of_code_23/services/FileReader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class DayOnePage extends StatefulWidget {
   const DayOnePage({super.key});
@@ -23,10 +23,7 @@ class _DayOnePageState extends State<DayOnePage> {
   Future<int> loadCalibrationValues() async {
   try {
     // Load the contents of the text file
-    String contents = await rootBundle.loadString('lib/assets/input/day1/puzzleInput.txt');
-
-    // Split the contents into lines
-    List<String> lines = contents.split('\n');
+    List<String> lines = await FileReader.readFileLines("day1/puzzleInput.txt");
 
     // Calculate the sum of calibration values
     int sum = 0;
@@ -63,7 +60,7 @@ class _DayOnePageState extends State<DayOnePage> {
 Future<int> loadCalibrationValuesPart2() async {
   try {
     // Load the contents of the text file
-    String contents = await rootBundle.loadString('lib/assets/input/day1/puzzleInput.txt');
+    List<String> lines = await FileReader.readFileLines("day1/puzzleInput.txt");
 
     // Define a map to convert word representations to digits
     Map<String, int> wordToDigit = {
@@ -73,9 +70,6 @@ Future<int> loadCalibrationValuesPart2() async {
 
     // Calculate the sum of calibration values
     int sum = 0;
-
-    // Split the contents into lines
-    List<String> lines = contents.split('\n');
 
     // Iterate over each line
     for (String line in lines) {
