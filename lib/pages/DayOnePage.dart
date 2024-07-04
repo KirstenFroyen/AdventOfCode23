@@ -135,9 +135,9 @@ int _convertTokenToNumber(String token, Map<String, int> wordToDigit) {
     }
   }
   else {
-    wordToDigit.forEach((key, value) => {
+    wordToDigit.forEach((key, value) {
       if (token.contains(key)) {
-        parsed = value
+        parsed = value;
       }
     });
   }
