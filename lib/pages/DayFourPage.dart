@@ -1,0 +1,132 @@
+// ignore_for_file: file_names
+
+import 'package:advent_of_code_23/services/FileReader.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
+
+class DayFourPage extends StatefulWidget {
+  const DayFourPage({Key? key}) : super(key: key);
+
+  @override
+  _DayFourPageState createState() => _DayFourPageState();
+}
+
+class _DayFourPageState extends State<DayFourPage> {
+
+  late Future<int> _partOne;
+  late Future<int> _partTwo;
+
+  @override
+  void initState() {
+    super.initState();
+    _partOne = _calculatePoints();
+    _partTwo = _calculateScratchcards();
+  }
+
+  Future<int> _calculatePoints() async {
+    List<String> lines = await FileReader.readFileLines("day4/puzzleInput.txt");
+    return calculateTotalPoints(lines);
+  }
+
+  Future<int> _calculateScratchcards() async {
+    List<String> lines = await FileReader.readFileLines("day4/testInput.txt");
+    return lines.length;
+  }
+
+  int calculateTotalPoints(List<String> input) {
+    var cards = parseCards(input);
+    int sum = 0;
+
+    for (var card in cards) {
+      var winning = card.winningNumbers.toSet();
+      var mine = card.myNumbers.toSet();
+      var cardSum = 0;
+
+      var myWinningNumbers = winning.intersection(mine);
+
+      if (myWinningNumbers.isNotEmpty) {
+        cardSum = 1;
+      }
+
+      for (var i = 1; i < myWinningNumbers.length; i++) {
+        cardSum *= 2;
+      }
+
+      sum += cardSum;
+    }
+
+    return sum;
+  }
+
+  List<Card> parseCards(List<String> input) {
+    List<Card> cards = [];
+
+    for (var line in input) {
+      var parts = line.split(": ");
+      var cardNumber = int.parse(parts[0].substring(parts[0].length-1));
+
+      var numbers = parts[1].split(" | ");
+      var winningNumbers = numbers[0].split(" ").where((e) => e.isNotEmpty).map(int.parse).toList();
+      var myNumbers = numbers[1].split(" ").where((e) => e.isNotEmpty).map(int.parse).toList();
+
+      cards.add(Card(cardNumber, winningNumbers, myNumbers));
+    }
+
+    return cards;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Day Four'),
+      ),
+      body: Column(
+        children: [
+          FutureBuilder<int>(
+            future: _partOne,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return Text(
+                    'Part one:\n${snapshot.data}',
+                    style: const TextStyle(fontSize: 20),
+                  );
+                }
+              }
+            },
+          ),
+          FutureBuilder<int>(
+            future: _partTwo,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return Text(
+                    'Part two:\n${snapshot.data}',
+                    style: const TextStyle(fontSize: 20),
+                  );
+                }
+              }
+            },
+          ),
+        ]
+      ),
+    );
+  }
+}
+
+class Card {
+  final int cardNumber;
+  final List<int> winningNumbers;
+  final List<int> myNumbers;
+
+  Card(this.cardNumber, this.winningNumbers, this.myNumbers);
+}

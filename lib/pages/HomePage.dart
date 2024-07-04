@@ -1,8 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:advent_of_code_23/pages/DayOnePage.dart';
-import 'package:advent_of_code_23/pages/DayThreePage.dart';
 import 'package:advent_of_code_23/pages/DayTwoPage.dart';
+import 'package:advent_of_code_23/pages/DayThreePage.dart';
+import 'package:advent_of_code_23/pages/DayFourPage.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -44,6 +45,15 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: const Text('Day Three'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DayFourPage()),
+                );
+              },
+              child: const Text('Day Four'),
             ),
             // Add more buttons for other pages
           ],
