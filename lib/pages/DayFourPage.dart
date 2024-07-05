@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'dart:collection';
+
 import 'package:advent_of_code_23/services/FileReader.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -30,7 +32,7 @@ class _DayFourPageState extends State<DayFourPage> {
 
   Future<int> _calculateScratchcards() async {
     List<String> lines = await FileReader.readFileLines("day4/testInput.txt");
-    return lines.length;
+    return calculateTotalCards(lines);
   }
 
   int calculateTotalPoints(List<String> input) {
@@ -58,8 +60,33 @@ class _DayFourPageState extends State<DayFourPage> {
     return sum;
   }
 
-  List<Card> parseCards(List<String> input) {
-    List<Card> cards = [];
+  int calculateTotalCards(List<String> input) {
+    var cards = parseCards(input);
+    int totalCards = 0;
+
+    Queue<ScratchCard> queue = Queue<ScratchCard>();
+    queue.add(cards.first);
+
+    while (queue.isNotEmpty) {
+      ScratchCard current = queue.removeFirst();
+      totalCards++;
+
+      print(current.cardNumber);
+
+      int matches = current.countMatches();
+      print("matches: $matches");
+      for (int i = 1; i <= matches; i++) {
+        if (current.cardNumber + i - 1 < cards.length) {
+          queue.add(cards[current.cardNumber + i - 1]);
+        }
+      }
+    }
+
+    return totalCards;
+  }
+
+  List<ScratchCard> parseCards(List<String> input) {
+    List<ScratchCard> cards = [];
 
     for (var line in input) {
       var parts = line.split(": ");
@@ -69,7 +96,7 @@ class _DayFourPageState extends State<DayFourPage> {
       var winningNumbers = numbers[0].split(" ").where((e) => e.isNotEmpty).map(int.parse).toList();
       var myNumbers = numbers[1].split(" ").where((e) => e.isNotEmpty).map(int.parse).toList();
 
-      cards.add(Card(cardNumber, winningNumbers, myNumbers));
+      cards.add(ScratchCard(cardNumber, winningNumbers, myNumbers));
     }
 
     return cards;
@@ -123,10 +150,14 @@ class _DayFourPageState extends State<DayFourPage> {
   }
 }
 
-class Card {
+class ScratchCard {
   final int cardNumber;
   final List<int> winningNumbers;
   final List<int> myNumbers;
 
-  Card(this.cardNumber, this.winningNumbers, this.myNumbers);
+  ScratchCard(this.cardNumber, this.winningNumbers, this.myNumbers);
+
+  int countMatches() {
+    return winningNumbers.where((number) => myNumbers.contains(number)).length;
+  }
 }
