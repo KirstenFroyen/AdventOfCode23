@@ -31,7 +31,7 @@ class _DayFourPageState extends State<DayFourPage> {
   }
 
   Future<int> _calculateScratchcards() async {
-    List<String> lines = await FileReader.readFileLines("day4/testInput.txt");
+    List<String> lines = await FileReader.readFileLines("day4/puzzleInput.txt");
     return calculateTotalCards(lines);
   }
 
@@ -60,24 +60,44 @@ class _DayFourPageState extends State<DayFourPage> {
     return sum;
   }
 
-  int calculateTotalCards(List<String> input) {
+  /*int calculateTotalCards(List<String> input) {
     var cards = parseCards(input);
-    int totalCards = 0;
-
+    int totalCards = cards.length;
     Queue<ScratchCard> queue = Queue<ScratchCard>();
-    queue.add(cards.first);
+    queue.addAll(cards);
 
-    while (queue.isNotEmpty) {
+    while(queue.isNotEmpty) {
       ScratchCard current = queue.removeFirst();
-      totalCards++;
-
-      print(current.cardNumber);
 
       int matches = current.countMatches();
-      print("matches: $matches");
+
       for (int i = 1; i <= matches; i++) {
-        if (current.cardNumber + i - 1 < cards.length) {
-          queue.add(cards[current.cardNumber + i - 1]);
+        if (current.cardNumber - 1 + i < cards.length) {
+          var next = cards[current.cardNumber - 1 + i];
+          queue.add(next);
+          totalCards++;
+        }
+      }
+    }
+
+    return totalCards;
+  }*/
+
+  int calculateTotalCards(List<String> input) {
+    var cards = parseCards(input);
+    int totalCards = cards.length;
+
+    // Array to keep track of scratchcard counts
+    List<int> cardCounts = List<int>.filled(cards.length, 1); // Start with 1 instance of each card
+
+    for (int i = 0; i < cards.length; i++) {
+      ScratchCard current = cards[i];
+      int matches = current.countMatches();
+
+      for (int j = 1; j <= matches; j++) {
+        if (i + j < cards.length) {
+          cardCounts[i + j] += cardCounts[i]; // Add copies to the subsequent card
+          totalCards += cardCounts[i]; // Add to the total count
         }
       }
     }
