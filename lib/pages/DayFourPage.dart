@@ -1,7 +1,5 @@
 // ignore_for_file: file_names
 
-import 'dart:collection';
-
 import 'package:advent_of_code_23/services/FileReader.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
