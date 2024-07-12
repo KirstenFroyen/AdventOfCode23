@@ -1,7 +1,8 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, library_private_types_in_public_api
 
 import 'package:advent_of_code_23/services/FileReader.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DayTwoPage extends StatefulWidget {
   const DayTwoPage({Key? key}) : super(key: key);
@@ -144,8 +145,9 @@ class _DayTwoPageState extends State<DayTwoPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
+                  final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
                   return Text(
-                    'The sum of IDs of possible games is: ${snapshot.data}',
+                    'Part one:\n$formattedResult',
                     style: const TextStyle(fontSize: 20),
                   );
                 }
@@ -161,8 +163,9 @@ class _DayTwoPageState extends State<DayTwoPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
+                  final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
                   return Text(
-                    'The sum of power of possible cubes is: ${snapshot.data}',
+                    'Part two:\n$formattedResult',
                     style: const TextStyle(fontSize: 20),
                   );
                 }

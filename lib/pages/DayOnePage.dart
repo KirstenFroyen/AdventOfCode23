@@ -1,13 +1,13 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, library_private_types_in_public_api
 
 import 'package:advent_of_code_23/services/FileReader.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DayOnePage extends StatefulWidget {
   const DayOnePage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _DayOnePageState createState() => _DayOnePageState();
 }
 
@@ -160,9 +160,10 @@ int _convertTokenToNumber(String token, Map<String, int> wordToDigit) {
               } else if (snapshot.hasError) {
                 return const Text('Error loading data');
               } else {
+                final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
                 return Text(
-                  'Sum of all calibration values: ${snapshot.data}',
-                  style: const TextStyle(fontSize: 18),
+                  'Part one:\n$formattedResult',
+                  style: const TextStyle(fontSize: 20),
                 );
               }
             },
@@ -175,9 +176,10 @@ int _convertTokenToNumber(String token, Map<String, int> wordToDigit) {
               } else if (snapshot.hasError) {
                 return const Text('Error loading data');
               } else {
+                final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
                 return Text(
-                  'Sum of all calibration values for part 2: ${snapshot.data}',
-                  style: const TextStyle(fontSize: 18),
+                  'Part two:\n$formattedResult',
+                  style: const TextStyle(fontSize: 20),
                 );
               }
             },

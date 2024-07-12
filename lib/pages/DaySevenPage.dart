@@ -118,8 +118,9 @@ class _DaySevenPageState extends State<DaySevenPage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
+                  final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
                   return Text(
-                    'Part two:\n${snapshot.data}',
+                    'Part two:\n$formattedResult',
                     style: const TextStyle(fontSize: 20),
                   );
                 }

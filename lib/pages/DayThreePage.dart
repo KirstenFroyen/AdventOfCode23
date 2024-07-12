@@ -1,8 +1,10 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, library_private_types_in_public_api
 
 import 'package:advent_of_code_23/services/FileReader.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:intl/intl.dart';
+
 class DayThreePage extends StatefulWidget {
   const DayThreePage({Key? key}) : super(key: key);
 
@@ -82,8 +84,9 @@ class _DayThreePageState extends State<DayThreePage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
+                  final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
                   return Text(
-                    'Part one:\n${snapshot.data}',
+                    'Part one:\n$formattedResult',
                     style: const TextStyle(fontSize: 20),
                   );
                 }
@@ -99,8 +102,9 @@ class _DayThreePageState extends State<DayThreePage> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
+                  final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
                   return Text(
-                    'Part two:\n${snapshot.data}',
+                    'Part two:\n$formattedResult',
                     style: const TextStyle(fontSize: 20),
                   );
                 }
