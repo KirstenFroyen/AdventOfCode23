@@ -5,6 +5,7 @@ import 'package:advent_of_code_23/pages/DayTwoPage.dart';
 import 'package:advent_of_code_23/pages/DayThreePage.dart';
 import 'package:advent_of_code_23/pages/DayFourPage.dart';
 import 'package:advent_of_code_23/pages/DayFivePage.dart';
+import 'package:advent_of_code_23/pages/DaySixPage.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -64,6 +65,15 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: const Text('Day Five'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DaySixPage()),
+                );
+              },
+              child: const Text('Day Six'),
             ),
             // Add more buttons for other pages
           ],
