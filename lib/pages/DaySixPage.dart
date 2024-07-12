@@ -24,13 +24,48 @@ class _DaySixPageState extends State<DaySixPage> {
   }
 
   Future<int> _findPartOne() async {
-    List<String> lines = await FileReader.readFileLines("day6/testInput.txt");
-    return lines.length;
+    List<String> lines = await FileReader.readFileLines("day6/puzzleInput.txt");
+    return beatTheRecord(lines);
   }
 
   Future<int> _findPartTwo() async {
     List<String> lines = await FileReader.readFileLines("day6/testInput.txt");
     return lines.length;
+  }
+
+  int beatTheRecord(List<String> input) {
+    List<Race> races = _parseData(input);
+
+    int result = 1;
+    for (Race race in races) {
+      int wins = race.possibleWins();
+      result *= wins;
+    }
+
+    return result;
+  }
+
+  List<Race> _parseData(List<String> lines) {
+    List<int> times = lines[0]
+      .replaceAll("Time:", "")
+      .trim()
+      .split(RegExp(r'\s+'))
+      .map(int.parse)
+      .toList();
+
+    List<int> distances = lines[1]
+      .replaceAll("Distance:", "")
+      .trim()
+      .split(RegExp(r'\s+'))
+      .map(int.parse)
+      .toList();
+
+    List<Race> races = [];
+    for (int i = 0; i < times.length; i++) {
+      races.add(Race(times[i], distances[i]));
+    }
+
+    return races;
   }
 
   @override
@@ -78,5 +113,27 @@ class _DaySixPageState extends State<DaySixPage> {
         ]
       ),
     );
+  }
+}
+
+class Race {
+  final int milliseconds;
+  final int record;
+
+  Race(this.milliseconds, this.record);
+
+  int possibleWins() {
+    int sum = 0;
+
+    for (int i = 0; i <= milliseconds; i++) {
+      int remainingTime = milliseconds - i;
+      int distance = remainingTime * i;
+
+      if (distance > record) {
+        sum++;
+      }
+    }
+
+    return sum;
   }
 }
