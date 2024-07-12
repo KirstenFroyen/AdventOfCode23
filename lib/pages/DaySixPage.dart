@@ -25,16 +25,16 @@ class _DaySixPageState extends State<DaySixPage> {
 
   Future<int> _findPartOne() async {
     List<String> lines = await FileReader.readFileLines("day6/puzzleInput.txt");
-    return beatTheRecord(lines);
+    return beatTheRecords(lines);
   }
 
   Future<int> _findPartTwo() async {
-    List<String> lines = await FileReader.readFileLines("day6/testInput.txt");
-    return lines.length;
+    List<String> lines = await FileReader.readFileLines("day6/puzzleInput.txt");
+    return beatTheRace(lines);
   }
 
-  int beatTheRecord(List<String> input) {
-    List<Race> races = _parseData(input);
+  int beatTheRecords(List<String> input) {
+    List<Race> races = _parseDataPartOne(input);
 
     int result = 1;
     for (Race race in races) {
@@ -45,7 +45,13 @@ class _DaySixPageState extends State<DaySixPage> {
     return result;
   }
 
-  List<Race> _parseData(List<String> lines) {
+  int beatTheRace(List<String> input) {
+    Race race = _parseRaceData(input);
+
+    return race.possibleWins();
+  }
+
+  List<Race> _parseDataPartOne(List<String> lines) {
     List<int> times = lines[0]
       .replaceAll("Time:", "")
       .trim()
@@ -66,6 +72,10 @@ class _DaySixPageState extends State<DaySixPage> {
     }
 
     return races;
+  }
+
+  Race _parseRaceData(List<String> lines) {
+    return Race(int.parse(lines[0].split(RegExp(r'\s+')).skip(1).join()), int.parse(lines[1].split(RegExp(r'\s+')).skip(1).join()));
   }
 
   @override
