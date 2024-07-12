@@ -139,14 +139,14 @@ class _DayTwoPageState extends State<DayTwoPage> {
             future: _sumOfIDsFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
                   return Text(
                     'The sum of IDs of possible games is: ${snapshot.data}',
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   );
                 }
               }
@@ -156,14 +156,14 @@ class _DayTwoPageState extends State<DayTwoPage> {
             future: _sumOfPowerOfCubes,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
                   return Text(
                     'The sum of power of possible cubes is: ${snapshot.data}',
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   );
                 }
               }

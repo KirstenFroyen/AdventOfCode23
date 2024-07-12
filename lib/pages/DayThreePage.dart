@@ -77,14 +77,14 @@ class _DayThreePageState extends State<DayThreePage> {
             future: _partOne,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
                   return Text(
                     'Part one:\n${snapshot.data}',
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   );
                 }
               }
@@ -94,14 +94,14 @@ class _DayThreePageState extends State<DayThreePage> {
             future: _partTwo,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
                   return Text(
                     'Part two:\n${snapshot.data}',
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   );
                 }
               }
