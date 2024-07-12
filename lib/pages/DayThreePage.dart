@@ -73,46 +73,48 @@ class _DayThreePageState extends State<DayThreePage> {
       appBar: AppBar(
         title: const Text('Day Three'),
       ),
-      body: Column(
-        children: [
-          FutureBuilder<int>(
-            future: _partOne,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+      body: Center( 
+        child: Column(
+          children: [
+            FutureBuilder<int>(
+              future: _partOne,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
                 } else {
-                  final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
-                  return Text(
-                    'Part one:\n$formattedResult',
-                    style: const TextStyle(fontSize: 20),
-                  );
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
+                    return Text(
+                      'Part one:\n$formattedResult',
+                      style: const TextStyle(fontSize: 20),
+                    );
+                  }
                 }
-              }
-            },
-          ),
-          FutureBuilder<int>(
-            future: _partTwo,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+              },
+            ),
+            FutureBuilder<int>(
+              future: _partTwo,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
                 } else {
-                  final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
-                  return Text(
-                    'Part two:\n$formattedResult',
-                    style: const TextStyle(fontSize: 20),
-                  );
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
+                    return Text(
+                      'Part two:\n$formattedResult',
+                      style: const TextStyle(fontSize: 20),
+                    );
+                  }
                 }
-              }
-            },
-          ),
-        ]
-      ),
+              },
+            ),
+          ]
+        ),
+      )
     );
   }
 }

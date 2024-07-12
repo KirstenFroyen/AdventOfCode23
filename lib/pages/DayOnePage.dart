@@ -148,44 +148,46 @@ int _convertTokenToNumber(String token, Map<String, int> wordToDigit) {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calibration Sum'),
+        title: const Text('Day One'),
       ),
-      body: Column(
-        children: [
-          FutureBuilder<int>(
-            future: loadCalibrationValues(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return const Text('Error loading data');
-              } else {
-                final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
-                return Text(
-                  'Part one:\n$formattedResult',
-                  style: const TextStyle(fontSize: 20),
-                );
-              }
-            },
-          ),
-          FutureBuilder<int>(
-            future: loadCalibrationValuesPart2(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return const Text('Error loading data');
-              } else {
-                final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
-                return Text(
-                  'Part two:\n$formattedResult',
-                  style: const TextStyle(fontSize: 20),
-                );
-              }
-            },
-          )
-        ],
-      ),
+      body: Center(
+        child: Column(
+          children: [
+            FutureBuilder<int>(
+              future: loadCalibrationValues(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return const Text('Error loading data');
+                } else {
+                  final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
+                  return Text(
+                    'Part one:\n$formattedResult',
+                    style: const TextStyle(fontSize: 20),
+                  );
+                }
+              },
+            ),
+            FutureBuilder<int>(
+              future: loadCalibrationValuesPart2(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return const Text('Error loading data');
+                } else {
+                  final formattedResult = NumberFormat.decimalPattern('nl').format(snapshot.data);
+                  return Text(
+                    'Part two:\n$formattedResult',
+                    style: const TextStyle(fontSize: 20),
+                  );
+                }
+              },
+            )
+          ],
+        ),
+      )
     );
   }
 }
