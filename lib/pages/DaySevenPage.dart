@@ -31,14 +31,28 @@ class _DaySevenPageState extends State<DaySevenPage> {
   }
 
   Future<int> _findPartTwo() async {
-    List<String> lines = await FileReader.readFileLines("day7/testInput.txt");
-    return lines.length;
+    List<String> lines = await FileReader.readFileLines("day7/puzzleInput.txt");
+    return totalWinningsWithJokers(lines);
   }
 
   int totalWinnings(List<String> input) {
     var hands = _parseHands(input);
 
     hands.sort((a, b) => compareHands(a, b));
+
+    int totalWinnings = 0;
+
+    for (int i = 0; i < hands.length; i++) {
+      totalWinnings += hands[i].bid * (i + 1);
+    }
+
+    return totalWinnings;
+  }
+
+  int totalWinningsWithJokers(List<String> input) {
+    var hands = _parseHands(input);
+
+    hands.sort((a, b) => compareHandsWithJokers(a, b));
 
     int totalWinnings = 0;
 
@@ -81,6 +95,35 @@ class _DaySevenPageState extends State<DaySevenPage> {
       }
     }
     return 0;
+  }
+
+  int compareHandsWithJokers(Hand a, Hand b) {
+    HandType aType = a.typeWithJokers;
+    HandType bType = b.typeWithJokers;
+
+    if (aType != bType) {
+      return aType.index.compareTo(bType.index);
+    } else {
+      var aValues = cardValuesWithJokers(a.cards);
+      var bValues = cardValuesWithJokers(b.cards);
+
+      for (int i = 0; i < aValues.length; i++) {
+        if (aValues[i] != bValues[i]) {
+          return aValues[i].compareTo(bValues[i]);
+        }
+      }
+    }
+    return 0;
+  }
+
+  List<int> cardValuesWithJokers(List<String> cards) {
+    return cards.map((card) {
+      if (card == 'J') {
+        return 0;
+      } else {
+        return cardValue(card);
+      }
+    }).toList();
   }
 
   @override
@@ -139,7 +182,8 @@ class Hand {
 
   Hand(this.cards, this.bid);
 
-  HandType get type => _handType(cards);
+  HandType get type => _handType(cards, false);
+  HandType get typeWithJokers => _handType(cards, true);
 }
 
 enum HandType {
@@ -152,14 +196,26 @@ enum HandType {
   fiveOfAKind,
 }
 
-HandType _handType(List<String> cards) {
+HandType _handType(List<String> cards, bool useJokers) {
   var counts = <String, int>{};
+  var jokers = 0;
 
   for (var card in cards) {
+    if (useJokers) {
+      if (card == "J") {
+        jokers++;
+      }
+    }
     counts[card] = (counts[card] ?? 0) + 1;
   }
 
   var countValues = counts.values.toList()..sort((a, b) => b - a);
+
+  if (useJokers) {
+    if (countValues.isNotEmpty) {
+      countValues[0] += jokers;
+    }
+  }
 
   if (countValues[0] == 5) return HandType.fiveOfAKind;
   if (countValues[0] == 4) return HandType.fourOfAKind;
