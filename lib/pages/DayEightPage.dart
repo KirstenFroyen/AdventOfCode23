@@ -25,13 +25,46 @@ class _DayEightPageState extends State<DayEightPage> {
   }
 
   Future<int> _findPartOne() async {
-    List<String> lines = await FileReader.readFileLines("day8/testInput.txt");
-    return lines.length;
+    List<String> lines = await FileReader.readFileLines("day8/puzzleInput.txt");
+    return calculateSteps(lines);
   }
 
   Future<int> _findPartTwo() async {
     List<String> lines = await FileReader.readFileLines("day8/testInput.txt");
     return lines.length;
+  }
+
+  int calculateSteps(List<String> input) {
+    String directions = input.removeAt(0).trim();
+    final pattern = RegExp(r'(\w+)\s*=\s*\((\w+),\s*(\w+)\)');
+    final matches = pattern.allMatches(input.join('\n'));
+
+    directions = (directions * input.length);
+
+    List<Node> nodes = matches.map((match) {
+      final start = match.group(1)!;
+      final nextElements = [match.group(2)!, match.group(3)!];
+
+      return Node(start, nextElements);
+    }).toList();
+
+    Node currentNode = nodes.firstWhere((element) => element.start == "AAA");
+    int steps = 0;
+
+    directions.split('').forEach((element) {
+      String destinationNode = "";
+      if (currentNode.start != "ZZZ") {
+        if (element == "R") {
+          destinationNode = currentNode.nextElements[1];
+        } else {
+          destinationNode = currentNode.nextElements[0];
+        }
+        steps++;
+        currentNode = nodes.firstWhere((element) => element.start == destinationNode);
+      }
+    });
+
+    return steps;
   }
 
   @override
@@ -84,4 +117,11 @@ class _DayEightPageState extends State<DayEightPage> {
       )
     );
   }
+}
+
+class Node {
+  final String start;
+  final List<String> nextElements;
+
+  Node(this.start, this.nextElements);
 }
