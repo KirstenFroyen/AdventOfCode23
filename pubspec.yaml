@@ -84,6 +84,10 @@ flutter:
     - lib/assets/input/day9/testInput.txt
     - lib/assets/input/day9/puzzleInput.txt
 
+    - lib/assets/input/day10/testInput.txt
+    - lib/assets/input/day10/testInput2.txt
+    - lib/assets/input/day10/puzzleInput.txt
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

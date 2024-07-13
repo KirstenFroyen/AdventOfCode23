@@ -1,14 +1,16 @@
 // ignore_for_file: file_names
 
-import 'package:advent_of_code_23/pages/DayOnePage.dart';
-import 'package:advent_of_code_23/pages/DayTwoPage.dart';
-import 'package:advent_of_code_23/pages/DayThreePage.dart';
-import 'package:advent_of_code_23/pages/DayFourPage.dart';
-import 'package:advent_of_code_23/pages/DayFivePage.dart';
-import 'package:advent_of_code_23/pages/DaySixPage.dart';
-import 'package:advent_of_code_23/pages/DaySevenPage.dart';
-import 'package:advent_of_code_23/pages/DayEightPage.dart';
-import 'package:advent_of_code_23/pages/DayNinePage.dart';
+import 'package:advent_of_code_23/pages/1/DayOnePage.dart';
+import 'package:advent_of_code_23/pages/2/DayTwoPage.dart';
+import 'package:advent_of_code_23/pages/3/DayThreePage.dart';
+import 'package:advent_of_code_23/pages/4/DayFourPage.dart';
+import 'package:advent_of_code_23/pages/5/DayFivePage.dart';
+import 'package:advent_of_code_23/pages/6/DaySixPage.dart';
+import 'package:advent_of_code_23/pages/7/DaySevenPage.dart';
+import 'package:advent_of_code_23/pages/8/DayEightPage.dart';
+import 'package:advent_of_code_23/pages/9/DayNinePage.dart';
+import 'package:advent_of_code_23/pages/10/DayTenPage.dart';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -31,7 +33,7 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const DayOnePage()),
                 );
               },
-              child: const Text('Day One'),
+              child: const Text('Day 1'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -40,7 +42,7 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const DayTwoPage()),
                 );
               },
-              child: const Text('Day Two'),
+              child: const Text('Day 2'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -49,7 +51,7 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const DayThreePage()),
                 );
               },
-              child: const Text('Day Three'),
+              child: const Text('Day 3'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -58,7 +60,7 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const DayFourPage()),
                 );
               },
-              child: const Text('Day Four'),
+              child: const Text('Day 4'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -67,7 +69,7 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const DayFivePage()),
                 );
               },
-              child: const Text('Day Five'),
+              child: const Text('Day 5'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -76,7 +78,7 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const DaySixPage()),
                 );
               },
-              child: const Text('Day Six'),
+              child: const Text('Day 6'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -85,7 +87,7 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const DaySevenPage()),
                 );
               },
-              child: const Text('Day Seven'),
+              child: const Text('Day 7'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -94,7 +96,7 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const DayEightPage()),
                 );
               },
-              child: const Text('Day Eight'),
+              child: const Text('Day 8'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -103,7 +105,16 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const DayNinePage()),
                 );
               },
-              child: const Text('Day Nine'),
+              child: const Text('Day 9'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DayTenPage()),
+                );
+              },
+              child: const Text('Day 10'),
             ),
             // Add more buttons for other pages
           ],
