@@ -30,23 +30,16 @@ class _DayEightPageState extends State<DayEightPage> {
   }
 
   Future<int> _findPartTwo() async {
-    List<String> lines = await FileReader.readFileLines("day8/testInput.txt");
-    return lines.length;
+    List<String> lines = await FileReader.readFileLines("day8/puzzleInput.txt");
+    return calculateGhostSteps(lines);
   }
 
   int calculateSteps(List<String> input) {
     String directions = input.removeAt(0).trim();
-    final pattern = RegExp(r'(\w+)\s*=\s*\((\w+),\s*(\w+)\)');
-    final matches = pattern.allMatches(input.join('\n'));
 
     directions = (directions * input.length);
 
-    List<Node> nodes = matches.map((match) {
-      final start = match.group(1)!;
-      final nextElements = [match.group(2)!, match.group(3)!];
-
-      return Node(start, nextElements);
-    }).toList();
+    List<Node> nodes = _parseNodes(input);
 
     Node currentNode = nodes.firstWhere((element) => element.start == "AAA");
     int steps = 0;
@@ -65,6 +58,60 @@ class _DayEightPageState extends State<DayEightPage> {
     });
 
     return steps;
+  }
+
+  int gcd(int a, int b) {
+    while (b != 0) {
+      int t = b;
+      b = a % b;
+      a = t;
+    }
+    return a;
+  }
+
+  int lcm(int a, int b) => (a * b) ~/ gcd(a, b);
+
+  int calculateGhostSteps(List<String> input) {
+    String directionString = input.removeAt(0).trim();
+    List<Node> nodes = _parseNodes(input);
+
+    Map<String, Node> nodeMap = {for (var node in nodes) node.start: node};
+
+    List<Node> startingNodes = nodes.where((node) => node.start.endsWith("A")).toList();
+    List<int> cycles = [];
+
+    List<int> directions = directionString.split('').map((d) => d == 'L' ? 0 : 1).toList();
+    int directionsLength = directions.length;
+
+    for (var node in startingNodes) {
+      String currentNode = node.start;
+      int steps = 0;
+
+      do {
+        int direction = directions[steps % directionsLength];
+        currentNode = nodeMap[currentNode]!.nextElements[direction];
+        steps++;
+      } while (!currentNode.endsWith("Z"));
+
+      cycles.add(steps);
+    }
+
+    int result = cycles.fold(1, (value, element) => lcm(value, element));
+    return result;
+  }
+
+  List<Node> _parseNodes(List<String> input) {
+    final pattern = RegExp(r'(\w+)\s*=\s*\((\w+),\s*(\w+)\)');
+    final matches = pattern.allMatches(input.join('\n'));
+
+    List<Node> nodes = matches.map((match) {
+      final start = match.group(1)!;
+      final nextElements = [match.group(2)!, match.group(3)!];
+
+      return Node(start, nextElements);
+    }).toList();
+
+    return nodes;
   }
 
   @override

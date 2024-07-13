@@ -78,6 +78,7 @@ flutter:
 
     - lib/assets/input/day8/testInput.txt
     - lib/assets/input/day8/testInput2.txt
+    - lib/assets/input/day8/testInput3.txt
     - lib/assets/input/day8/puzzleInput.txt
 
   # The following line ensures that the Material Icons font is
