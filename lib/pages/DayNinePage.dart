@@ -30,8 +30,8 @@ class _DayNinePageState extends State<DayNinePage> {
   }
 
   Future<int> _findPartTwo() async {
-    List<String> lines = await FileReader.readFileLines("day9/testInput.txt");
-    return lines.length;
+    List<String> lines = await FileReader.readFileLines("day9/puzzleInput.txt");
+    return extrapolateBackwards(lines);
   }
 
   int calculateExtrapolatedValues(List<String> input) {
@@ -39,6 +39,16 @@ class _DayNinePageState extends State<DayNinePage> {
 
     for (var line in input) {
       histories.add(line.split(' ').map((e) => int.parse(e)).toList());
+    }
+
+    return sumOfNextValues(histories);
+  }
+
+  int extrapolateBackwards(List<String> input) {
+    List<List<int>> histories = [];
+
+    for (var line in input) {
+      histories.add(line.split(' ').map((e) => int.parse(e)).toList().reversed.toList());
     }
 
     return sumOfNextValues(histories);
