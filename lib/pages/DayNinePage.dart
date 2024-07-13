@@ -25,13 +25,65 @@ class _DayNinePageState extends State<DayNinePage> {
   }
 
   Future<int> _findPartOne() async {
-    List<String> lines = await FileReader.readFileLines("day8/puzzleInput.txt");
-    return lines.length;
+    List<String> lines = await FileReader.readFileLines("day9/puzzleInput.txt");
+    return calculateExtrapolatedValues(lines);
   }
 
   Future<int> _findPartTwo() async {
-    List<String> lines = await FileReader.readFileLines("day8/puzzleInput.txt");
+    List<String> lines = await FileReader.readFileLines("day9/testInput.txt");
     return lines.length;
+  }
+
+  int calculateExtrapolatedValues(List<String> input) {
+    List<List<int>> histories = [];
+
+    for (var line in input) {
+      histories.add(line.split(' ').map((e) => int.parse(e)).toList());
+    }
+
+    return sumOfNextValues(histories);
+  }
+
+  int nextValue(List<int> sequence) {
+    List<int> diff(List<int> seq) {
+      List<int> result = [];
+      for (int i = 0; i < seq.length -1 ; i++) {
+        result.add(seq[i + 1] - seq[i]);
+      }
+
+      return result;
+    }
+
+    List<List<int>> allDiffs = [sequence];
+
+    while (true) {
+      List<int> lastDiff = diff(allDiffs.last);
+      allDiffs.add(lastDiff);
+
+      if(lastDiff.every((element) => element == 0)) {
+        break;
+      }
+    }
+
+    for (int i = allDiffs.length - 1; i >= 0; i--) {
+      if (i + 1 >= allDiffs.length) {
+        allDiffs[i].add(allDiffs[i].last);
+      } else {
+        allDiffs[i].add(allDiffs[i].last + allDiffs[i + 1].last);
+      }
+    }
+
+    return allDiffs[0].last;
+  }
+
+  int sumOfNextValues(List<List<int>> histories) {
+    int sum = 0;
+
+    for (List<int> history in histories) {
+      sum += nextValue(history);
+    }
+
+    return sum;
   }
 
   @override
